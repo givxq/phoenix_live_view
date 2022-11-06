@@ -49,6 +49,7 @@ defmodule LiveLatestTestWeb.SalesDashboardLive do
         <img src="images/refresh.svg">
         Refresh
       </button>
+    
     </div>
     """
   end
