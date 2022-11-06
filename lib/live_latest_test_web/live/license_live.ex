@@ -2,6 +2,7 @@ defmodule LiveLatestTestWeb.LicenseLive do
   use LiveLatestTestWeb, :live_view
 
   alias LiveLatestTest.Licenses
+  import Datex.Time
   import Number.Currency
 
   def mount(_params, _session, socket) do
@@ -24,6 +25,7 @@ defmodule LiveLatestTestWeb.LicenseLive do
 
   defp time_remaining(expiration_time) do
     DateTime.diff(expiration_time, Timex.now())
+    # Timex.diff(expiration_time, Timex.now())
   end
 
   def render(assigns) do
@@ -47,9 +49,14 @@ defmodule LiveLatestTestWeb.LicenseLive do
             <%= number_to_currency(@amount) %>
           </div>
     
-          <div class="time">
-           <%= @expiration_time %>
-          </div>
+          <p class="m-4 font-semibold text-indigo-800">
+            <%= if @time_remaining > 0 do %>
+              <%= @time_remaining %>
+               seconds left to save 20%
+            <% else %>
+              Expired!
+            <% end %>
+        </p>
         </div>
       </div>
     </div>
@@ -65,6 +72,12 @@ defmodule LiveLatestTestWeb.LicenseLive do
         amount: Licenses.calculate(seats)
       )
 
+    {:noreply, socket}
+  end
+
+  def handle_info(:tick, socket) do
+    expiration_time = socket.assigns.expiration_time
+    socket = assign(socket, time_remaining: time_remaining(expiration_time))
     {:noreply, socket}
   end
 end
