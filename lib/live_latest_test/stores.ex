@@ -6,7 +6,7 @@ defmodule LiveLatestTest.Stores do
 
   def search_by_city(city) do
     list_stores()
-    |> Enum.filer(&(&1.city == city))
+    |> Enum.filter(&(&1.city == city))
   end
 
   def list_stores do
