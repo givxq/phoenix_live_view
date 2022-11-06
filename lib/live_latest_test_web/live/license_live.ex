@@ -5,8 +5,25 @@ defmodule LiveLatestTestWeb.LicenseLive do
   import Number.Currency
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, seats: 3, amount: Licenses.calculate(3))
+    if connected?(socket) do
+      :timer.send_interval(1000, self(), :tick)
+    end
+
+    expiration_time = Timex.shift(Timex.now(), seconds: 1)
+
+    socket =
+      assign(socket,
+        seats: 3,
+        amount: Licenses.calculate(3),
+        expiration_time: expiration_time,
+        time_remaining: time_remaining(expiration_time)
+      )
+
     {:ok, socket}
+  end
+
+  defp time_remaining(expiration_time) do
+    DateTime.diff(expiration_time, Timex.now())
   end
 
   def render(assigns) do
