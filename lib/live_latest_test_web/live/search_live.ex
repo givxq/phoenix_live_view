@@ -34,7 +34,7 @@ defmodule LiveLatestTestWeb.SearchLive do
                 </div>
               </div>
               <div class="second-line">
-                <img src="images/location.svg">
+                <img src="images/location.svg" width="40">
                 <%= store.street %>
               </div>
               <div class="phone_number">
