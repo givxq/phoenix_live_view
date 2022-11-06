@@ -9,7 +9,7 @@ defmodule LiveLatestTestWeb.LicenseLive do
       :timer.send_interval(1000, self(), :tick)
     end
 
-    expiration_time = Timex.shift(Timex.now(), seconds: 1)
+    expiration_time = Timex.shift(Timex.now(), hours: 1)
 
     socket =
       assign(socket,
@@ -45,6 +45,10 @@ defmodule LiveLatestTestWeb.LicenseLive do
     
           <div class="amount">
             <%= number_to_currency(@amount) %>
+          </div>
+    
+          <div class="time">
+           <%= @expiration_time %>
           </div>
         </div>
       </div>
