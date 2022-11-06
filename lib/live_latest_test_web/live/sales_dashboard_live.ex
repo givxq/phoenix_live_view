@@ -4,6 +4,10 @@ defmodule LiveLatestTestWeb.SalesDashboardLive do
   alias LiveLatestTest.Sales
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      :timer.send_interval(1000, self(), :tick)
+    end
+
     socket = assign_stats(socket)
 
     {:ok, socket}
@@ -101,6 +105,11 @@ defmodule LiveLatestTestWeb.SalesDashboardLive do
   end
 
   def handle_event("refresh", _, socket) do
+    socket = assign_stats(socket)
+    {:noreply, socket}
+  end
+
+  def handle_info(:tick, socket) do
     socket = assign_stats(socket)
     {:noreply, socket}
   end
