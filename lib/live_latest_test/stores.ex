@@ -1,5 +1,7 @@
 defmodule LiveLatestTest.Stores do
   def search_by_zip(zip) do
+    :timer.sleep(2000)
+
     list_stores()
     |> Enum.filter(&(&1.zip == zip))
   end
